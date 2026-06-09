@@ -88,3 +88,21 @@ class SaleOrderLine(models.Model):
                 lambda b: b.sale_line_id == line
             )
             line.prepaid_balance_id = balance[:1]
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    def action_view_prepaid_balances(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Prepaid Balances'),
+            'res_model': 'prepaid.balance',
+            'view_mode': 'list,form',
+            'domain': [('partner_id', '=', self.id)],
+            'context': {'default_partner_id': self.id},
+        }
+
+
+
+
