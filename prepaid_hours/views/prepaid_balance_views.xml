@@ -81,14 +81,6 @@
                         </group>
                     </group>
 
-                    <!-- Progress bar visual -->
-                    <group string="Balance Usage">
-                        <div class="o_field_widget">
-                            <field name="qty_remaining" widget="progressbar"
-                                   options="{'max_value': 'qty_total', 'editable': false}"/>
-                        </div>
-                    </group>
-
                     <notebook>
                         <page string="Consumption History">
                             <field name="consumption_ids" readonly="1">
@@ -126,12 +118,11 @@
                 <separator/>
                 <filter string="Low Balance" name="low_balance"
                         domain="[('state','=','active'),('alert_sent','=',True)]"/>
-                <group expand="0" string="Group By">
-                    <filter string="Customer" name="group_partner"
-                            context="{'group_by': 'partner_id'}"/>
-                    <filter string="Status" name="group_state"
-                            context="{'group_by': 'state'}"/>
-                </group>
+                <separator/>
+                <filter string="Customer" name="group_partner"
+                        context="{'group_by': 'partner_id'}"/>
+                <filter string="Status" name="group_state"
+                        context="{'group_by': 'state'}"/>
             </search>
         </field>
     </record>
