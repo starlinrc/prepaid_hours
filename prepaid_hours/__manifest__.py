@@ -12,6 +12,8 @@
     'website': 'https://tpi.com.do',
     'category': 'Services/Timesheets',
     'license': 'OPL-1',
+    'price': 149.00,
+    'currency': 'USD',
     'depends': [
         'sale_management',
         'analytic',
