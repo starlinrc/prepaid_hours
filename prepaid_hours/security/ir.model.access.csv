@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_prepaid_balance_user,prepaid.balance user,model_prepaid_balance,prepaid_hours.group_prepaid_user,1,0,0,0
+access_prepaid_balance_manager,prepaid.balance manager,model_prepaid_balance,prepaid_hours.group_prepaid_manager,1,1,1,1
+access_prepaid_consumption_user,prepaid.consumption user,model_prepaid_consumption,prepaid_hours.group_prepaid_user,1,0,0,0
+access_prepaid_consumption_manager,prepaid.consumption manager,model_prepaid_consumption,prepaid_hours.group_prepaid_manager,1,1,1,1
+access_prepaid_adjust_wizard_user,prepaid.adjust.wizard user,model_prepaid_adjust_wizard,prepaid_hours.group_prepaid_manager,1,1,1,1

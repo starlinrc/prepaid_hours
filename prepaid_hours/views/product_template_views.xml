@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_template_prepaid_form" model="ir.ui.view">
+        <field name="name">product.template.prepaid.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="before">
+                <group string="Prepaid Package" invisible="not is_prepaid_package">
+                    <field name="is_prepaid_package" widget="boolean_toggle"/>
+                    <field name="prepaid_unit" invisible="not is_prepaid_package"/>
+                    <field name="prepaid_qty" invisible="not is_prepaid_package"/>
+                    <field name="prepaid_validity_days" invisible="not is_prepaid_package"/>
+                    <field name="prepaid_alert_threshold" invisible="not is_prepaid_package"/>
+                </group>
+                <group invisible="is_prepaid_package">
+                    <field name="is_prepaid_package" widget="boolean_toggle"
+                           string="Mark as Prepaid Package"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_prepaid_root"
+              name="Prepaid Hours"
+              sequence="85"
+              groups="prepaid_hours.group_prepaid_user"
+              web_icon="prepaid_hours,static/description/icon.png"/>
+
+    <menuitem id="menu_prepaid_balances"
+              name="Balances"
+              parent="menu_prepaid_root"
+              action="action_prepaid_balance"
+              sequence="10"/>
+
+    <menuitem id="menu_prepaid_consumption"
+              name="Consumption History"
+              parent="menu_prepaid_root"
+              action="action_prepaid_consumption"
+              sequence="20"
+              groups="prepaid_hours.group_prepaid_manager"/>
+</odoo>

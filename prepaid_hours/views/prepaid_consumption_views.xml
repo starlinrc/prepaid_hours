@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_prepaid_consumption_list" model="ir.ui.view">
+        <field name="name">prepaid.consumption.list</field>
+        <field name="model">prepaid.consumption</field>
+        <field name="arch" type="xml">
+            <list string="Consumption History" create="false">
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="balance_id"/>
+                <field name="user_id"/>
+                <field name="qty_consumed"/>
+                <field name="prepaid_unit"/>
+                <field name="consumption_type" widget="badge"/>
+                <field name="note"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_prepaid_consumption" model="ir.actions.act_window">
+        <field name="name">Consumption History</field>
+        <field name="res_model">prepaid.consumption</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

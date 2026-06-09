@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- LIST VIEW -->
+    <record id="view_prepaid_balance_list" model="ir.ui.view">
+        <field name="name">prepaid.balance.list</field>
+        <field name="model">prepaid.balance</field>
+        <field name="arch" type="xml">
+            <list string="Prepaid Balances" decoration-danger="state == 'exhausted'"
+                  decoration-warning="state == 'expired'" decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <field name="qty_total"/>
+                <field name="qty_consumed"/>
+                <field name="qty_remaining"/>
+                <field name="prepaid_unit"/>
+                <field name="date_start"/>
+                <field name="date_expiry"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'active'"
+                       decoration-danger="state == 'exhausted'"
+                       decoration-warning="state == 'expired'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- FORM VIEW -->
+    <record id="view_prepaid_balance_form" model="ir.ui.view">
+        <field name="name">prepaid.balance.form</field>
+        <field name="model">prepaid.balance</field>
+        <field name="arch" type="xml">
+            <form string="Prepaid Balance">
+                <header>
+                    <button name="action_activate" string="Activate"
+                            type="object" class="oe_highlight"
+                            invisible="state != 'draft'"/>
+                    <button name="action_manual_adjust" string="Manual Adjustment"
+                            type="object"
+                            invisible="state not in ['active', 'exhausted']"
+                            groups="prepaid_hours.group_prepaid_manager"/>
+                    <button name="action_cancel" string="Cancel"
+                            type="object" confirm="Are you sure?"
+                            invisible="state in ['cancelled', 'expired']"
+                            groups="prepaid_hours.group_prepaid_manager"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,active,exhausted"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_consumptions"
+                                type="object" class="oe_stat_button"
+                                icon="fa-list">
+                            <field name="consumption_count" widget="statinfo"
+                                   string="Consumptions"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Customer">
+                            <field name="partner_id"/>
+                            <field name="product_id"/>
+                            <field name="sale_order_id" readonly="1"/>
+                            <field name="analytic_account_id"/>
+                        </group>
+                        <group string="Balance">
+                            <field name="prepaid_unit"/>
+                            <field name="qty_total"/>
+                            <field name="qty_consumed" readonly="1"/>
+                            <field name="qty_remaining" readonly="1"/>
+                            <field name="alert_threshold"/>
+                            <field name="alert_sent" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Validity">
+                            <field name="date_start"/>
+                            <field name="date_expiry"/>
+                        </group>
+                    </group>
+
+                    <!-- Progress bar visual -->
+                    <group string="Balance Usage">
+                        <div class="o_field_widget">
+                            <field name="qty_remaining" widget="progressbar"
+                                   options="{'max_value': 'qty_total', 'editable': false}"/>
+                        </div>
+                    </group>
+
+                    <notebook>
+                        <page string="Consumption History">
+                            <field name="consumption_ids" readonly="1">
+                                <list>
+                                    <field name="date"/>
+                                    <field name="user_id"/>
+                                    <field name="qty_consumed"/>
+                                    <field name="prepaid_unit"/>
+                                    <field name="consumption_type" widget="badge"/>
+                                    <field name="note"/>
+                                    <field name="analytic_line_id"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- SEARCH VIEW -->
+    <record id="view_prepaid_balance_search" model="ir.ui.view">
+        <field name="name">prepaid.balance.search</field>
+        <field name="model">prepaid.balance</field>
+        <field name="arch" type="xml">
+            <search string="Search Balances">
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <field name="name"/>
+                <separator/>
+                <filter string="Active" name="active" domain="[('state','=','active')]"/>
+                <filter string="Exhausted" name="exhausted" domain="[('state','=','exhausted')]"/>
+                <filter string="Expired" name="expired" domain="[('state','=','expired')]"/>
+                <separator/>
+                <filter string="Low Balance" name="low_balance"
+                        domain="[('state','=','active'),('alert_sent','=',True)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Customer" name="group_partner"
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter string="Status" name="group_state"
+                            context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_prepaid_balance" model="ir.actions.act_window">
+        <field name="name">Prepaid Balances</field>
+        <field name="res_model">prepaid.balance</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_prepaid_balance_search"/>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+
+</odoo>
